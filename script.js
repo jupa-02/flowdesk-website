@@ -1,17 +1,26 @@
 // OS Detection for highlighting the correct download button
 function detectOS() {
+    const platform = window.navigator.platform.toLowerCase();
     const userAgent = window.navigator.userAgent.toLowerCase();
-    const macBtn = document.getElementById('btn-mac');
-    const winBtn = document.getElementById('btn-win');
-
-    if (userAgent.indexOf('mac') !== -1) {
-        macBtn.classList.add('recommended');
-        macBtn.innerHTML += '<div style="font-size: 0.7rem; color: #a78bfa; margin-top: 5px;">⭐ Recomendado para tu equipo</div>';
-    } else if (userAgent.indexOf('win') !== -1) {
-        winBtn.classList.add('recommended');
-        winBtn.classList.replace('btn-secondary', 'btn-primary');
-        macBtn.classList.replace('btn-primary', 'btn-secondary');
-        winBtn.innerHTML += '<div style="font-size: 0.7rem; color: #a78bfa; margin-top: 5px;">⭐ Recomendado para tu equipo</div>';
+    
+    const btnMac = document.getElementById('btn-mac');
+    const btnWin = document.getElementById('btn-win');
+    
+    if (platform.includes('mac') || userAgent.includes('mac')) {
+        // Mac user
+        if (btnWin) {
+            btnWin.style.display = 'none'; // Hide Windows button
+        }
+    } else if (platform.includes('win') || userAgent.includes('win')) {
+        // Windows user
+        if (btnMac) {
+            btnMac.style.display = 'none'; // Hide Mac button
+        }
+        if (btnWin) {
+            // Make Windows button the primary CTA
+            btnWin.classList.remove('btn-secondary');
+            btnWin.classList.add('btn-primary');
+        }
     }
 }
 
